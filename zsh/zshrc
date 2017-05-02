@@ -1,0 +1,42 @@
+#
+# ~/.zshrc
+#
+
+# zshrc script dir
+script_dir="$( cd -P "$( dirname "$(readlink "${(%):-%N}")" )" && pwd )"
+
+# word style
+autoload -U select-word-style
+select-word-style bash
+
+# history
+HISTFILE=~/.zsh_histfile
+HISTSIZE=1000
+SAVEHIST=1000
+setopt appendhistory autocd extendedglob
+
+# use vi mode
+bindkey -v
+
+# completions
+zstyle :compinstall filename '$(script_dir)/.zshrc'
+autoload -Uz compinit
+compinit
+bindkey '^H' backward-kill-word
+
+# prompt
+source ${script_dir}/posh-git-sh/git-prompt.sh
+precmd() { git_info=$(__posh_git_echo) } 
+setopt prompt_subst
+PROMPT='%/${git_info}%#'
+
+# alias
+alias ls='ls --color=auto'
+alias sublime='subl3'
+alias vscode='code'
+alias mkdir="mkdir -p"
+alias path='echo $PATH | tr -s ":" "\n"'
+alias vim='nvim'
+
+# ROS 
+source ${script_dir}/ros/ros_setup.sh
