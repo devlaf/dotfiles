@@ -6,4 +6,4 @@ cd "$HOME"
 ln -f -s "$dotfiles_dir/zsh/zshrc" ".zshrc"
 
 cd "$HOME/.config"
-ln -f -s "$dotfiles_dir/nvim" "nvim"
+ln -fsn "$dotfiles_dir/nvim" "nvim"
