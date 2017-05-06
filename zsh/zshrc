@@ -24,6 +24,11 @@ autoload -Uz compinit
 compinit
 bindkey '^H' backward-kill-word
 
+# fix directional keys
+bindkey "${terminfo[khome]}" beginning-of-line
+bindkey "${terminfo[kend]}" end-of-line
+bindkey "${terminfo[kdch1]}" delete-char
+
 # prompt
 source ${script_dir}/posh-git-sh/git-prompt.sh
 precmd() { git_info=$(__posh_git_echo) } 
