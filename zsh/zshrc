@@ -28,6 +28,8 @@ bindkey '^H' backward-kill-word
 bindkey "${terminfo[khome]}" beginning-of-line
 bindkey "${terminfo[kend]}" end-of-line
 bindkey "${terminfo[kdch1]}" delete-char
+bindkey "^[[1;5D" backward-word
+bindkey "^[[1;5C" forward-word
 
 # prompt
 source ${script_dir}/posh-git-sh/git-prompt.sh
