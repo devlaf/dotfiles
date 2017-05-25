@@ -44,6 +44,7 @@ alias vscode='code'
 alias mkdir="mkdir -p"
 alias path='echo $PATH | tr -s ":" "\n"'
 alias vim='nvim'
+alias history='history 1'
 
 # ROS 
 source ${script_dir}/ros/ros_setup.sh
