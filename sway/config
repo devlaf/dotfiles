@@ -7,10 +7,16 @@ set $mod Mod1
 
 font pango:DejaVu Sans Mono 8
 
+# displays
+output HDMI-A-2 pos 0,0 res 1920x1080
+output HDMI-A-1 pos 1920,0 res 1680x1050
+output eDP-1 pos 3600,0 res 2560x1440
+
 # application shortcuts
 bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+F4 kill
 bindsym $mod+F2 exec --no-startup-id dmenu_run
+bindsym $mod+F3 exec urxvt
 
 # change focus
 bindsym $mod+j focus left
@@ -101,11 +107,12 @@ mode "resize" {
         bindsym Escape mode "default"
 }
 
-bindcode 121 exec --no-startup-id "~/Scripts/adjust_volume toggle_mute"
-bindcode 122 exec --no-startup-id "~/Scripts/adjust_volume down"
-bindcode 123 exec --no-startup-id "~/Scripts/adjust_volume up"
+# Volume Controls
+bindsym 113 exec --no-startup-id "~/Scripts/adjust_volume toggle_mute"
+bindsym 114 exec --no-startup-id "~/Scripts/adjust_volume down"
+bindsym 115 exec --no-startup-id "~/Scripts/adjust_volume up"
 
-# dock bar
-bar {
-        status_command i3status
-}
+# Background Images
+output HDMI-A-2 background ~/.config/sway/background_img/lascaux_cave_paintings/lascaux_1.jpg stretch
+output HDMI-A-1 background ~/.config/sway/background_img/lascaux_cave_paintings/lascaux_2.jpg stretch
+output eDP-1 background ~/.config/sway/background_img/lascaux_cave_paintings/lascaux_3.jpg stretch

@@ -68,4 +68,4 @@ noremap j gj             " navigate with word wrap
 noremap k gk
 
 " Theme
-colorscheme anotherdark
+colorscheme koehler
