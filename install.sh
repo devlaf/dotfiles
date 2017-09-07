@@ -12,3 +12,7 @@ ln -fsn "$dotfiles_dir/nvim" "nvim"
 mkdir -p "$HOME/.config/sway"
 cd "$HOME/.config/sway"
 ln -fsn "$dotfiles_dir/sway/config" "config"
+
+mkdir -p "$HOME/.emacs.d"
+cd "$HOME/.emacs.d"
+ln -fsn "$dotfiles_dir/emacs/emacs" ".emacs"
