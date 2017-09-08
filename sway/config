@@ -85,12 +85,6 @@ bindsym $mod+Shift+space floating toggle
 # reload configuration file
 bindsym $mod+Shift+c reload
 
-# restart i3 inplace
-bindsym $mod+Shift+r restart
-
-# exit i3
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
-
 # resize mode
 mode "resize" {
         bindsym j resize shrink width 10 px or 10 ppt
@@ -116,3 +110,8 @@ bindsym 115 exec --no-startup-id "~/Scripts/adjust_volume up"
 output HDMI-A-2 background ~/.config/sway/background_img/lascaux_cave_paintings/lascaux_1.jpg stretch
 output HDMI-A-1 background ~/.config/sway/background_img/lascaux_cave_paintings/lascaux_2.jpg stretch
 output eDP-1 background ~/.config/sway/background_img/lascaux_cave_paintings/lascaux_3.jpg stretch
+
+# Status bar
+bar {
+    status_command i3status
+}

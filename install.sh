@@ -16,3 +16,7 @@ ln -fsn "$dotfiles_dir/sway/config" "config"
 mkdir -p "$HOME/.emacs.d"
 cd "$HOME/.emacs.d"
 ln -fsn "$dotfiles_dir/emacs/emacs" ".emacs"
+
+mkdir -p "$HOME/.config/i3status"
+cd "$HOME/.config/i3status"
+ln -fsn "$dotfiles_dir/i3status/config" "config"
