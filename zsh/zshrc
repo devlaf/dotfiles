@@ -37,7 +37,7 @@ bindkey "^[Oc" forward-word
 source ${script_dir}/posh-git-sh/git-prompt.sh
 precmd() { git_info=$(__posh_git_echo) } 
 setopt prompt_subst
-PROMPT='%/${git_info}%#'
+PROMPT='%/${git_info}> '
 
 # alias
 alias ls='ls --color=auto'
