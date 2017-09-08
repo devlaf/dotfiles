@@ -30,6 +30,8 @@ bindkey "${terminfo[kend]}" end-of-line
 bindkey "${terminfo[kdch1]}" delete-char
 bindkey "^[[1;5D" backward-word
 bindkey "^[[1;5C" forward-word
+bindkey "^[Od" backward-word
+bindkey "^[Oc" forward-word
 
 # prompt
 source ${script_dir}/posh-git-sh/git-prompt.sh
