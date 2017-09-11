@@ -6,10 +6,9 @@
 (require 'package)
 
 (setq package-enable-at-startup nil)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/")
-			 '("melpha-stable" . "http://stable.melpa.org/packages/")
-			 '("org" . "http://orgmode.org/elpa/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives '("melpha-stable" . "http://stable.melpa.org/packages/"))
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 
 (package-initialize)
 
@@ -18,11 +17,16 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-
 ;; Direct customize interface to write its config elsewhere
+(let ((filename "~/.emacs.d/custom.el"))
+  (unless (file-exists-p filename)
+    (write-region "" nil custom-file)))
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
+;; ----------------------------------------
+;; use-package declarations
+;; ----------------------------------------
 
 (use-package evil
   :ensure t
