@@ -31,12 +31,16 @@
 (use-package evil
   :ensure t
   :config
-    (evil-mode 1)
-)
+    (evil-mode 1))
 
 (use-package helm
   :ensure t
   :config (progn
     (setq helm-buffers-fuzzy-matching t)
-    (helm-mode 1))
-)
+    (helm-mode 1)))
+
+(use-package magit
+  :ensure t
+  :bind (("C-x g" . magit-status))
+  :config
+  (setq magit-ediff-dwim-show-on-hunks t))
