@@ -24,6 +24,13 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
+;; Send all emacs backup files to /tmp
+(setq backup-directory-alist `(("." . "/tmp")))
+(setq backup-by-copying t)
+
+;; sbcl path
+(setq inferior-lisp-program "/usr/bin/sbcl")
+
 ;; ----------------------------------------
 ;; use-package declarations
 ;; ----------------------------------------
@@ -44,3 +51,11 @@
   :bind (("C-x g" . magit-status))
   :config
   (setq magit-ediff-dwim-show-on-hunks t))
+
+(use-package slime
+  :ensure t
+  :init
+  (setq slime-contribs      `(slime-fancy)
+        slime-complete-symbol-function  `slime-fuzzy-complete-symbol
+        slime-net-coding-system         'utf-8-unix
+        slime-lisp-implementations      '((sbcl ("/usr/bin/sbcl")))))
