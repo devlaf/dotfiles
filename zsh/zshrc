@@ -51,3 +51,6 @@ alias ducks='du -cksh * | sort -rh | head -11'
 
 # ROS 
 source ${script_dir}/ros/ros_setup.sh
+
+# Other scripts
+source ${script_dir}/scripts/knock.sh
