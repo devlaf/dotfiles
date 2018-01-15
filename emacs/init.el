@@ -59,3 +59,28 @@
         slime-complete-symbol-function  `slime-fuzzy-complete-symbol
         slime-net-coding-system         'utf-8-unix
         slime-lisp-implementations      '((sbcl ("/usr/bin/sbcl")))))
+
+(use-package erlang
+  :ensure t
+  :init
+  (add-to-list 'auto-mode-alist '("\\.P\\'" . erlang-mode))
+  (add-to-list 'auto-mode-alist '("\\.E\\'" . erlang-mode))
+  (add-to-list 'auto-mode-alist '("\\.S\\'" . erlang-mode))
+  :config
+  (add-hook 'erlang-mode-hook
+            (lambda ()
+              (setq mode-name "erl"
+                    erlang-compile-extra-opts '((i . "../include"))
+                    erlang-root-dir "/usr/lib/erlang"))))
+(use-package edts
+  :ensure t)
+
+(use-package flycheck
+  :ensure t
+  :diminish flycheck-mode
+  :config
+  (add-hook 'after-init-hook 'global-flycheck-mode)
+  (setq flycheck-display-errors-function nil
+        flycheck-erlang-include-path '("../include")
+        flycheck-erlang-library-path '()
+        flycheck-check-syntax-automatically '(save)))
