@@ -87,3 +87,10 @@
         flycheck-erlang-include-path '("../include")
         flycheck-erlang-library-path '()
         flycheck-check-syntax-automatically '(save)))
+
+(use-package nord-theme
+    :ensure t
+    :init
+    (add-to-list 'custom-theme-load-path(expand-file-name "~/.emacs.d/themes"))
+    :config
+    (load-theme 'nord t))
