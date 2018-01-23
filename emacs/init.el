@@ -28,6 +28,9 @@
 (setq backup-directory-alist `(("." . "/tmp")))
 (setq backup-by-copying t)
 
+;; Don't save X clipboard manager stuff on exit (creates issues w/ wayland)
+(setq x-select-enable-clipboard-manager nil)
+
 ;; sbcl path
 (setq inferior-lisp-program "/usr/bin/sbcl")
 
