@@ -75,6 +75,7 @@
               (setq mode-name "erl"
                     erlang-compile-extra-opts '((i . "../include"))
                     erlang-root-dir "/usr/lib/erlang"))))
+
 (use-package edts
   :ensure t)
 
@@ -87,6 +88,11 @@
         flycheck-erlang-include-path '("../include")
         flycheck-erlang-library-path '()
         flycheck-check-syntax-automatically '(save)))
+
+(use-package flycheck-tip
+  :ensure t
+  :config
+  (setq flycheck-tip-use-timer 'verbose))
 
 (use-package nord-theme
     :ensure t
