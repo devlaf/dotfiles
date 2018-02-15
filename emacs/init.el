@@ -100,3 +100,8 @@
     (add-to-list 'custom-theme-load-path(expand-file-name "~/.emacs.d/themes"))
     :config
     (load-theme 'nord t))
+
+(use-package nlinum
+    :ensure t
+    :config
+    (global-nlinum-mode))
