@@ -31,6 +31,12 @@
 ;; Don't save X clipboard manager stuff on exit (creates issues w/ wayland)
 (setq x-select-enable-clipboard-manager nil)
 
+;; Formatting
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+(setq indent-line-function 'insert-tab)
+(setq-default show-trailing-whitespace t)
+
 ;; sbcl path
 (setq inferior-lisp-program "/usr/bin/sbcl")
 
