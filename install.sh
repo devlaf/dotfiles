@@ -17,7 +17,6 @@ function show_usage {
     echo -e "\r\nInstall config files for zsh, tmux, nvim.\r\n"
     echo -e "Additional flags:"
     echo -e "--with-emacs    Also install emacs config & quicklisp"
-    echo -e "--with-sway     Also installs sway and i3bar config"
 }
 
 if flag_exists "help"; then
@@ -59,17 +58,4 @@ if flag_exists "with-emacs"; then
 
     echo -e "(let ((quicklisp-init (merge-pathnames \".emacs.d/quicklisp/setup.lisp\" (user-homedir-pathname))))" >> ~/.sbclrc
     echo -e "(when (probe-file quicklisp-init) (load quicklisp-init)))" >> ~/.sbclrc
-fi
-
-# ----------------------------------------------
-# sway
-# ----------------------------------------------
-if flag_exists "with-sway"; then
-    mkdir -p "$HOME/.config/sway"
-    cd "$HOME/.config/sway"
-    ln -fsn "$dotfiles_dir/sway/config" "config"
-
-    mkdir -p "$HOME/.config/i3status"
-    cd "$HOME/.config/i3status"
-    ln -fsn "$dotfiles_dir/i3status/config" "config"
 fi
