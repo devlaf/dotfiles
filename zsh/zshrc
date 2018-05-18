@@ -24,6 +24,9 @@ autoload -Uz compinit
 compinit
 bindkey '^H' backward-kill-word
 
+# keyboard remappings
+export XKB_DEFAULT_OPTIONS=ctrl:nocaps
+
 # fix directional keys
 bindkey "${terminfo[khome]}" beginning-of-line
 bindkey "${terminfo[kend]}" end-of-line
@@ -42,12 +45,13 @@ PROMPT='%/${git_info}> '
 # alias
 alias ls='ls --color=auto'
 alias sublime='subl3'
-alias vscode='code'
+alias vscode='code-git'
 alias mkdir="mkdir -p"
 alias path='echo $PATH | tr -s ":" "\n"'
 alias vim='nvim'
 alias history='history 1'
 alias ducks='du -cksh * | sort -rh | head -11'
+alias ducklings='du -ckhs .[^.]* |sort -rh | head -20'
 
 # ROS 
 source ${script_dir}/ros/ros_setup.sh
