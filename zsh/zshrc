@@ -45,16 +45,19 @@ PROMPT='%/${git_info}> '
 # alias
 alias ls='ls --color=auto'
 alias sublime='subl3'
-alias vscode='code-git'
+alias vscode='code'
 alias mkdir="mkdir -p"
 alias path='echo $PATH | tr -s ":" "\n"'
 alias vim='nvim'
 alias history='history 1'
 alias ducks='du -cksh * | sort -rh | head -11'
 alias ducklings='du -ckhs .[^.]* |sort -rh | head -20'
+alias gti='git'
 
 # ROS 
 source ${script_dir}/ros/ros_setup.sh
 
 # Other scripts
 source ${script_dir}/scripts/knock.sh
+source ${script_dir}/scripts/convert_date.sh
+export PATH=~/Projects/dotfiles-private/scripts/:$PATH
