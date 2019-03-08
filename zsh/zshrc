@@ -41,6 +41,7 @@ source ${script_dir}/posh-git-sh/git-prompt.sh
 precmd() { git_info=$(__posh_git_echo) } 
 setopt prompt_subst
 PROMPT='%/${git_info}> '
+export LC_ALL="en_US.UTF-8"
 
 # alias
 alias ls='ls --color=auto'
