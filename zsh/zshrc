@@ -28,9 +28,8 @@ bindkey '^H' backward-kill-word
 export XKB_DEFAULT_OPTIONS=ctrl:nocaps
 
 # fix directional keys
-bindkey "${terminfo[khome]}" beginning-of-line
-bindkey "${terminfo[kend]}" end-of-line
-bindkey "${terminfo[kdch1]}" delete-char
+bindkey "\e[H" beginning-of-line
+bindkey "\e[F" end-of-line
 bindkey "^[[1;5D" backward-word
 bindkey "^[[1;5C" forward-word
 bindkey "^[Od" backward-word
