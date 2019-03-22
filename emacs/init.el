@@ -40,6 +40,9 @@
 ;; sbcl path
 (setq inferior-lisp-program "/usr/bin/sbcl")
 
+;; rebind meta to sys key (alt taken by sway)
+(setq x-super-keysym 'meta)
+
 ;; ----------------------------------------
 ;; use-package declarations
 ;; ----------------------------------------
