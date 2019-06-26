@@ -22,19 +22,22 @@ bindkey -v
 zstyle :compinstall filename '$(script_dir)/.zshrc'
 autoload -Uz compinit
 compinit
-bindkey '^H' backward-kill-word
 
 # keyboard remappings
 export XKB_DEFAULT_OPTIONS=ctrl:nocaps
 
 # fix directional keys
-bindkey "\e[H" beginning-of-line
-bindkey "\e[F" end-of-line
-bindkey "\e[3~" delete-char
+bindkey "\e[H"    beginning-of-line
+bindkey "\e[1~"   beginning-of-line
+bindkey "\e[F"    end-of-line
+bindkey "\e[4~"   end-of-line
 bindkey "^[[1;5D" backward-word
+bindkey "^[Od"    backward-word
 bindkey "^[[1;5C" forward-word
-bindkey "^[Od" backward-word
-bindkey "^[Oc" forward-word
+bindkey "^[Oc"    forward-word
+bindkey "\e[3~"   delete-char
+bindkey '^[[3;5~' kill-word
+bindkey '^H'      backward-kill-word
 
 # prompt
 source ${script_dir}/posh-git-sh/git-prompt.sh
@@ -65,3 +68,6 @@ export PATH=~/Projects/dotfiles-private/scripts/:$PATH
 
 # make java stuff work nicely w/ wayland
 export _JAVA_AWT_WM_NONREPARENTING=1
+
+# make wlroots available to sway, should replace
+export LD_LIBRARY_PATH=/usr/local/lib
