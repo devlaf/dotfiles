@@ -69,5 +69,8 @@ export PATH=~/Projects/dotfiles-private/scripts/:$PATH
 # make java stuff work nicely w/ wayland
 export _JAVA_AWT_WM_NONREPARENTING=1
 
-# make wlroots available to sway, should replace
-export LD_LIBRARY_PATH=/usr/local/lib
+# Provide owned XDG_RUNTIME_DIR for sway
+mkdir -p /tmp/swaytmp
+chown -R devin:devin /tmp/swaytmp
+export XDG_RUNTIME_DIR=/tmp/swaytmp
+

@@ -1,3 +1,6 @@
 [submodule "zsh/posh-git-sh"]
 	path = zsh/posh-git-sh
 	url = https://github.com/lyze/posh-git-sh.git
+[submodule "emacs/theme/nord-emacs"]
+	path = emacs/theme/nord-emacs
+	url = https://github.com/arcticicestudio/nord-emacs.git

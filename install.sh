@@ -58,4 +58,7 @@ if flag_exists "with-emacs"; then
 
     echo -e "(let ((quicklisp-init (merge-pathnames \".emacs.d/quicklisp/setup.lisp\" (user-homedir-pathname))))" >> ~/.sbclrc
     echo -e "(when (probe-file quicklisp-init) (load quicklisp-init)))" >> ~/.sbclrc
+
+    mkdir -p "$home/.emacs.d/themes"
+    ln -fsn "$dotfiles_dir/emacs/theme/nord-emacs/nord-theme.el" "$home/.emacs.d/themes"
 fi

@@ -20,9 +20,8 @@
 ;; Direct customize interface to write its config elsewhere
 (let ((filename "~/.emacs.d/custom.el"))
   (unless (file-exists-p filename)
-    (write-region "" nil custom-file)))
-(setq custom-file "~/.emacs.d/custom.el")
-(load custom-file)
+    (write-region "" nil filename)))
+(load "~/.emacs.d/custom.el")
 
 ;; Send all emacs backup files to /tmp
 (setq backup-directory-alist `(("." . "/tmp")))
@@ -46,11 +45,6 @@
 ;; ----------------------------------------
 ;; use-package declarations
 ;; ----------------------------------------
-
-;;(use-package evil
-;;  :ensure t
-;;  :config
-;;    (evil-mode 1))
 
 (use-package helm
   :ensure t
