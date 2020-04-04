@@ -42,6 +42,9 @@
 ;; rebind meta to sys key (alt taken by sway)
 (setq x-super-keysym 'meta)
 
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "firefox")
+
 ;; ----------------------------------------
 ;; use-package declarations
 ;; ----------------------------------------
