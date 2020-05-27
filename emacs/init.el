@@ -36,14 +36,26 @@
 (setq indent-line-function 'insert-tab)
 (setq-default show-trailing-whitespace t)
 
-;; sbcl path
-(setq inferior-lisp-program "/usr/bin/sbcl")
-
 ;; rebind meta to sys key (alt taken by sway)
 (setq x-super-keysym 'meta)
 
+;; auto easypg
+(require 'epa-file)
+(epa-file-enable)
+
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+
+(setq inferior-lisp-program "/usr/bin/sbcl")
+
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "firefox")
+
+(defun shell-ssh (remote-path)
+    (interactive "suser@host: ")
+    (let ((default-directory (concat (concat "/ssh:" remote-path) ":"))
+          (explicit-shell-file-name "/bin/bash"))
+      (shell)))
 
 ;; ----------------------------------------
 ;; use-package declarations
