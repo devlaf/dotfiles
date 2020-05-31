@@ -51,11 +51,28 @@
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "firefox")
 
+;; direct to remote shell over ssh
 (defun sshell (remote-path)
     (interactive "suser@host: ")
     (let ((default-directory (concat (concat "/ssh:" remote-path) ":"))
           (explicit-shell-file-name "/bin/bash"))
       (shell)))
+
+;; adjust cursor when scrolling at beginning/end of buffer
+(defun scroll-page-down ()
+    (interactive)
+    (next-line
+        (- (window-text-height)
+            next-screen-context-lines)))
+(defun scroll-page-up ()
+    (interactive)
+    (previous-line
+        (- (window-text-height)
+            next-screen-context-lines)))
+(global-set-key (kbd "C-v") 'scroll-page-down)
+(global-set-key (kbd "M-v") 'scroll-page-up)
+(global-set-key [next] 'scroll-page-down)
+(global-set-key [prior] 'scroll-page-up)
 
 ;; ----------------------------------------
 ;; use-package declarations
