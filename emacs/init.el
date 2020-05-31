@@ -51,7 +51,7 @@
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "firefox")
 
-(defun shell-ssh (remote-path)
+(defun sshell (remote-path)
     (interactive "suser@host: ")
     (let ((default-directory (concat (concat "/ssh:" remote-path) ":"))
           (explicit-shell-file-name "/bin/bash"))
