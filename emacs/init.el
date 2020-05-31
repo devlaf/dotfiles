@@ -16,10 +16,9 @@
 ;; separate custom.el
 ;; ----------------------------------------
 
-(let ((elpath (concat user-emacs-directory "custom.el")))
-  (unless (file-exists-p elpath)
-    (write-region "" nil elpath))
-    (load elpath))
+(setq custom-file (concat user-emacs-directory "custom.el"))
+(when (file-exists-p custom-file)
+  (load custom-file))
 
 ;; ----------------------------------------
 ;; `use-package` decs
