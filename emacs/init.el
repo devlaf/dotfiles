@@ -1,6 +1,7 @@
 ;; ----------------------------------------
-;; Devin LaFrance
 ;; init.el
+;;
+;; devlaf
 ;; ----------------------------------------
 
 (require 'package)
@@ -12,71 +13,24 @@
 
 (package-initialize)
 
-;; Bootstrap `use-package'
+
+;; ----------------------------------------
+;; separate custom.el
+;; ----------------------------------------
+
+(let ((elpath (concat user-emacs-directory "custom.el")))
+  (unless (file-exists-p elpath)
+    (write-region "" nil elpath))
+    (load elpath))
+
+    
+;; ----------------------------------------
+;; `use-package` decs
+;; ----------------------------------------
+
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
-
-;; Direct customize interface to write its config elsewhere
-(let ((filename "~/.emacs.d/custom.el"))
-  (unless (file-exists-p filename)
-    (write-region "" nil filename)))
-(load "~/.emacs.d/custom.el")
-
-;; Send all emacs backup files to /tmp
-(setq backup-directory-alist `(("." . "/tmp")))
-(setq backup-by-copying t)
-
-;; Don't save X clipboard manager stuff on exit (creates issues w/ wayland)
-(setq x-select-enable-clipboard-manager nil)
-
-;; Formatting
-(setq-default indent-tabs-mode nil)
-(setq-default tab-width 4)
-(setq indent-line-function 'insert-tab)
-(setq-default show-trailing-whitespace t)
-
-;; rebind meta to sys key (alt taken by sway)
-(setq x-super-keysym 'meta)
-
-;; auto easypg
-(require 'epa-file)
-(epa-file-enable)
-
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-
-(setq inferior-lisp-program "/usr/bin/sbcl")
-
-(setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "firefox")
-
-;; direct to remote shell over ssh
-(defun sshell (remote-path)
-    (interactive "suser@host: ")
-    (let ((default-directory (concat (concat "/ssh:" remote-path) ":"))
-          (explicit-shell-file-name "/bin/bash"))
-      (shell)))
-
-;; adjust cursor when scrolling at beginning/end of buffer
-(defun scroll-page-down ()
-    (interactive)
-    (next-line
-        (- (window-text-height)
-            next-screen-context-lines)))
-(defun scroll-page-up ()
-    (interactive)
-    (previous-line
-        (- (window-text-height)
-            next-screen-context-lines)))
-(global-set-key (kbd "C-v") 'scroll-page-down)
-(global-set-key (kbd "M-v") 'scroll-page-up)
-(global-set-key [next] 'scroll-page-down)
-(global-set-key [prior] 'scroll-page-up)
-
-;; ----------------------------------------
-;; use-package declarations
-;; ----------------------------------------
 
 (use-package helm
   :ensure t
@@ -140,3 +94,72 @@
     :ensure t
     :config
     (global-nlinum-mode))
+
+
+;; ----------------------------------------
+;; script
+;; ----------------------------------------
+
+;; go direct to remote shell with ssh
+(defun sshell (remote-path)
+    (interactive "suser@host: ")
+    (let ((default-directory (concat (concat "/ssh:" remote-path) ":"))
+          (explicit-shell-file-name "/bin/bash"))
+      (shell)))
+
+;; adjust cursor when scrolling at beginning/end of buffer
+(defun scroll-page-down ()
+    (interactive)
+    (next-line
+        (- (window-text-height)
+            next-screen-context-lines)))
+
+(defun scroll-page-up ()
+    (interactive)
+    (previous-line
+        (- (window-text-height)
+            next-screen-context-lines)))
+
+    
+;; ----------------------------------------
+;; rebindings
+;; ----------------------------------------
+
+(global-set-key (kbd "C-v") 'scroll-page-down)
+(global-set-key (kbd "M-v") 'scroll-page-up)
+(global-set-key [next] 'scroll-page-down)
+(global-set-key [prior] 'scroll-page-up)
+
+;; meta to sys (alt taken by sway)
+(setq x-super-keysym 'meta)
+
+
+;; ----------------------------------------
+;; general
+;; ----------------------------------------
+
+(setq inferior-lisp-program "/usr/bin/sbcl")
+
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "firefox")
+
+;; don't save X clipboard manager stuff on exit (creates issues w/ wayland)
+(setq x-select-enable-clipboard-manager nil)
+
+;; send all emacs backup to /tmp
+(setq backup-directory-alist `(("." . "/tmp")))
+(setq backup-by-copying t)
+    
+;; formatting
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+(setq indent-line-function 'insert-tab)
+(setq-default show-trailing-whitespace t)
+
+;; auto easypg
+(require 'epa-file)
+(epa-file-enable)
+
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+
