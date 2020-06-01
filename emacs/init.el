@@ -95,26 +95,33 @@
 ;; script
 ;; ----------------------------------------
 
-;; go direct to remote shell with ssh
 (defun sshell (remote-path)
+    "Open remote shell over ssh."
     (interactive "suser@host: ")
     (let ((default-directory (concat (concat "/ssh:" remote-path) ":"))
           (explicit-shell-file-name "/bin/bash"))
       (shell)))
 
-;; adjust cursor when scrolling at beginning/end of buffer
 (defun scroll-page-down ()
+    "Scroll page down and adjust cursor to end of buffer on last page."
     (interactive)
-    (next-line
+    (forward-line
         (- (window-text-height)
             next-screen-context-lines)))
 
 (defun scroll-page-up ()
+    "Scroll page up and adjust cursor to top of buffer on first page."
     (interactive)
-    (previous-line
-        (- (window-text-height)
-            next-screen-context-lines)))
+    (forward-line
+        (- 0
+            (- (window-text-height)
+                next-screen-context-lines))))
 
+(defun kill-other-buffers ()
+    "Kill all other buffers except this one and scratch."
+    (interactive)
+        (let ((exempt (list (current-buffer) (get-buffer "*scratch*"))))
+            (mapc 'kill-buffer (seq-difference (buffer-list) exempt #'eq))))
     
 ;; ----------------------------------------
 ;; rebindings
@@ -156,4 +163,9 @@
 
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
+(setq inhibit-startup-screen t)
+(setq initial-scratch-message nil)
+
+;; flycheck shouldn't treat init.el as package file
+(setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
 
