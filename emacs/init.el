@@ -11,6 +11,8 @@
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 
 (package-initialize)
+(unless package-archive-contents
+  (package-refresh-contents))
 
 ;; ----------------------------------------
 ;; separate custom.el
@@ -168,4 +170,3 @@
 
 ;; flycheck shouldn't treat init.el as package file
 (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
-
