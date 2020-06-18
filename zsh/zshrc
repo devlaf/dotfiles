@@ -57,6 +57,8 @@ alias history='history 1'
 alias ducks='du -cksh * | sort -rh | head -11'
 alias ducklings='du -ckhs .[^.]* |sort -rh | head -20'
 alias gti='git'
+alias reboot='sudo reboot'
+alias shutdown='sudo shutdown -h now'
 
 # ROS 
 source ${script_dir}/ros/ros_setup.sh
