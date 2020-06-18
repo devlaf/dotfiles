@@ -66,8 +66,9 @@ source ${script_dir}/ros/ros_setup.sh
 # Other scripts
 source ${script_dir}/scripts/knock.sh
 source ${script_dir}/scripts/convert_date.sh
-export PATH=~/Projects/dotfiles-private/scripts/:$PATH
+export PATH=$PATH:~/Projects/dotfiles-private/scripts/
 export PATH=$PATH:/opt/bin
+export PATH=$PATH:~/bin
 
 # make java stuff work nicely w/ wayland
 export _JAVA_AWT_WM_NONREPARENTING=1
