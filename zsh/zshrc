@@ -66,6 +66,7 @@ source ${script_dir}/ros/ros_setup.sh
 # Other scripts
 source ${script_dir}/scripts/knock.sh
 source ${script_dir}/scripts/convert_date.sh
+source ${script_dir}/scripts/fetch_gravitar.sh
 export PATH=$PATH:~/Projects/dotfiles-private/scripts/
 export PATH=$PATH:/opt/bin
 export PATH=$PATH:~/bin
