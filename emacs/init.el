@@ -129,10 +129,11 @@
 ;; rebindings
 ;; ----------------------------------------
 
-(global-set-key (kbd "C-v") 'scroll-page-down)
-(global-set-key (kbd "M-v") 'scroll-page-up)
-(global-set-key [next] 'scroll-page-down)
-(global-set-key [prior] 'scroll-page-up)
+;; (global-set-key (kbd "C-v") 'scroll-page-down)
+;; (global-set-key (kbd "M-v") 'scroll-page-up)
+;; (global-set-key [next] 'scroll-page-down)
+;; (global-set-key [prior] 'scroll-page-up)
+(global-set-key "\C-c$" 'toggle-truncate-lines)
 
 ;; meta to sys (alt taken by sway)
 (setq x-super-keysym 'meta)
@@ -158,6 +159,8 @@
 (setq-default tab-width 4)
 (setq indent-line-function 'insert-tab)
 (setq-default show-trailing-whitespace t)
+(setq scroll-error-top-bottom t)
+(set-default 'truncate-lines t)
 
 ;; auto easypg
 (require 'epa-file)
