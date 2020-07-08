@@ -1,10 +1,15 @@
 ####################################################################
-# Port knocking script
+# Port knocking
 #   Usage: knock {host} {first_port_num} {second_port_num} etc.
 #
 ####################################################################
 
 knock() {
+    if [[ $# -eq 0 ]] ; then
+        echo 'Usage: knock {host} {first_port_num} {second_port_num} etc.'
+        return
+    fi
+    
     HOST=$1
     shift
     for ARG in "$@"
