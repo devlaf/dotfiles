@@ -30,11 +30,24 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
+(use-package org
+  :ensure t
+  :config
+    (add-hook 'org-mode-hook (lambda() (toggle-truncate-lines 0))))
+
+(use-package cc-mode
+  :ensure nil
+  :mode (("\\.ino\\'" . c-mode))
+  :config
+    (add-hook 'c-mode-hook 'flycheck-mode)
+    (setq-default c-basic-offset 2
+                  c-default-style "k&r"))
+    
 (use-package helm
   :ensure t
-  :config (progn
+  :config
     (setq helm-buffers-fuzzy-matching t)
-    (helm-mode 1)))
+    (helm-mode 1))
 
 (use-package magit
   :ensure t
@@ -103,6 +116,11 @@
     (let ((default-directory (concat (concat "/ssh:" remote-path) ":"))
           (explicit-shell-file-name "/bin/bash"))
       (shell)))
+
+(defun knock (host &rest ports)
+    "Port knock host with provided ports"
+    (dolist (port ports)
+      (shell-command (format "nmap -Pn --host-timeout 100 --max-retries 0 -p %s %s" port host))))
 
 (defun scroll-page-down ()
     "Scroll page down and adjust cursor to end of buffer on last page."
@@ -173,3 +191,8 @@
 
 ;; flycheck shouldn't treat init.el as package file
 (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
+
+(add-hook 'term-mode-hook (lambda()
+    (setq bidi-paragraph-direction 'left-to-right)))
+
+
