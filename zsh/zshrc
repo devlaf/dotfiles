@@ -92,4 +92,4 @@ export XDG_RUNTIME_DIR=/tmp/swaytmp
 
 # gpg-agent for ssh
 export SSH_AUTH_SOCK="/run/user/$(id -u)/gnupg/S.gpg-agent.ssh"
-
+export GPG_TTY=$(tty)
