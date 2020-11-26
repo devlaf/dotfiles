@@ -32,11 +32,12 @@
 
 (use-package org
   :ensure t
-  :config
-    (add-hook 'org-mode-hook (lambda() (toggle-truncate-lines 0))))
+  :hook
+    (org-mode . (lambda() (setq truncate-lines nil))))
 
 (use-package cc-mode
   :ensure nil
+  :after (:all flycheck flycheck-tip)
   :mode (("\\.ino\\'" . c-mode))
   :config
     (add-hook 'c-mode-hook 'flycheck-mode)
@@ -45,32 +46,33 @@
     
 (use-package helm
   :ensure t
+  :custom
+    (helm-buffers-fuzzy-matching t)
   :config
-    (setq helm-buffers-fuzzy-matching t)
     (helm-mode 1))
 
 (use-package magit
   :ensure t
   :bind (("C-x g" . magit-status))
-  :config
-  (setq magit-ediff-dwim-show-on-hunks t))
+  :custom
+    (magit-ediff-dwim-show-on-hunks t))
 
 (use-package slime
   :ensure t
   :init
-  (setq slime-contribs      `(slime-fancy)
-        slime-complete-symbol-function  `slime-fuzzy-complete-symbol
-        slime-net-coding-system         'utf-8-unix
-        slime-lisp-implementations      '((sbcl ("/usr/bin/sbcl")))))
+    (setq slime-contribs                  `(slime-fancy)
+          slime-complete-symbol-function  `slime-fuzzy-complete-symbol
+          slime-net-coding-system         'utf-8-unix
+          slime-lisp-implementations      '((sbcl ("/usr/bin/sbcl")))))
 
 (use-package erlang
   :ensure t
   :init
-  (add-to-list 'auto-mode-alist '("\\.P\\'" . erlang-mode))
-  (add-to-list 'auto-mode-alist '("\\.E\\'" . erlang-mode))
-  (add-to-list 'auto-mode-alist '("\\.S\\'" . erlang-mode))
+    (add-to-list 'auto-mode-alist '("\\.P\\'" . erlang-mode))
+    (add-to-list 'auto-mode-alist '("\\.E\\'" . erlang-mode))
+    (add-to-list 'auto-mode-alist '("\\.S\\'" . erlang-mode))
   :config
-  (add-hook 'erlang-mode-hook
+    (add-hook 'erlang-mode-hook
             (lambda ()
               (setq mode-name "erl"
                     erlang-compile-extra-opts '((i . "../include"))
@@ -82,29 +84,30 @@
 (use-package flycheck
   :ensure t
   :diminish flycheck-mode
+  :custom
+    (flycheck-display-errors-function nil)
+    (flycheck-erlang-include-path '("../include"))
+    (flycheck-erlang-library-path '())
+    (flycheck-check-syntax-automatically '(save))
   :config
-  (add-hook 'after-init-hook 'global-flycheck-mode)
-  (setq flycheck-display-errors-function nil
-        flycheck-erlang-include-path '("../include")
-        flycheck-erlang-library-path '()
-        flycheck-check-syntax-automatically '(save)))
+    (add-hook 'after-init-hook 'global-flycheck-mode))
 
 (use-package flycheck-tip
   :ensure t
-  :config
-  (setq flycheck-tip-use-timer 'verbose))
+  :custom
+    (flycheck-tip-use-timer 'verbose))
 
 (use-package nord-theme
     :ensure t
     :init
-    (add-to-list 'custom-theme-load-path(expand-file-name "~/.emacs.d/themes"))
+      (add-to-list 'custom-theme-load-path(expand-file-name (concat user-emacs-directory "themes")))
     :config
-    (load-theme 'nord t))
+      (load-theme 'nord t))
 
 (use-package nlinum
     :ensure t
     :config
-    (global-nlinum-mode))
+      (global-nlinum-mode))
 
 ;; ----------------------------------------
 ;; script
