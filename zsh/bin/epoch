@@ -1,0 +1,47 @@
+#!/bin/bash
+
+args=("$@")
+
+function show_usage {
+  echo -e "epoch: convenience utils for converting dates to/from epoch milliseconds.\r\n"
+  echo -e "Usage:"
+  echo -e "epoch            --> returns current time in epoch_milli"
+  echo -e "epoch {val}      --> converts val from epoch_milli to a human-readable date, UTC"
+  echo -e "epoch {val} -l   --> converts val from epoch_milli to a human-readable date in local TZ"
+}
+
+function has_flag {
+  for arg in ${args[@]}; do
+    if [[ $arg == $1 ]] ; then 
+      return 0 
+    fi
+  done
+  false
+}
+
+function is_numeric {
+  re='^[0-9]+$'
+  if [[ $1 =~ $re ]] ; then
+    return 0
+  fi
+  false
+}
+
+### current time
+if [ $# -eq 0 ] ; then
+  date +%s%3N
+  exit 0
+fi
+
+### convert provided time
+if ! is_numeric $1 ; then
+  show_usage
+  exit 1
+fi
+
+if has_flag "-l" ; then
+  date -d @$(($1 / 1000))
+else
+  TZ=UTC date -d @$(($1 / 1000))
+fi
+

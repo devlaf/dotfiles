@@ -1,0 +1,19 @@
+#!/bin/bash
+
+function show_usage {
+  echo -e "Usage: gravatar {email_address} --> fetches and saves to ./gravatar-{email_address}.png"
+}
+
+if [[ $# -eq 0 ]] ; then
+  show_usage
+  exit 0
+fi
+
+for app in "curl" "md5sum"; do
+  if ! which $app >/dev/null 2>/dev/null; then 
+    echo "err: you gotta install $app there, bud" && exit 1
+  fi
+done
+
+curl "http://gravatar.com/avatar/$(echo -n $1 | md5sum)?s=300" > gravatar_$1.png
+

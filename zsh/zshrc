@@ -5,8 +5,8 @@
 # unbreak tramp when zsh is default shell
 [[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
 
-# zshrc script dir
-script_dir="$( cd -P "$( dirname "$(readlink "${(%):-%N}")" )" && pwd )"
+# location of this config
+zshrc_dir="$( cd -P "$( dirname "$(readlink "${(%):-%N}")" )" && pwd )"
 
 # word style
 autoload -U select-word-style
@@ -22,7 +22,7 @@ setopt appendhistory autocd extendedglob
 bindkey -v
 
 # completions
-zstyle :compinstall filename '$(script_dir)/.zshrc'
+zstyle :compinstall filename '$(zshrc_dir)/.zshrc'
 autoload -Uz compinit
 compinit
 
@@ -43,7 +43,7 @@ bindkey '^[[3;5~' kill-word
 bindkey '^H'      backward-kill-word
 
 # prompt
-source ${script_dir}/posh-git-sh/git-prompt.sh
+source ${zshrc_dir}/posh-git-sh/git-prompt.sh
 autoload -U colors && colors
 precmd() { 
   start_blue="%{$fg[blue]%}"
@@ -72,15 +72,16 @@ alias reboot='sudo reboot'
 alias shutdown='sudo shutdown -h now'
 
 # ROS 
-source ${script_dir}/ros/ros_setup.sh
+source ${zshrc_dir}/ros/ros_setup.sh
 
-# Other scripts
-source ${script_dir}/scripts/knock.sh
-source ${script_dir}/scripts/convert_date.sh
-source ${script_dir}/scripts/fetch_gravitar.sh
-export PATH=$PATH:~/Projects/dotfiles-private/scripts/
+# PATH updates
+export PATH=$PATH:${zshrc_dir}/bin
 export PATH=$PATH:/opt/bin
-export PATH=$PATH:~/bin
+export PATH=$PATH:~/.local/bin
+
+# go
+export GOPATH=$HOME/.go
+export PATH=$PATH:$GOPATH/bin
 
 # make java stuff work nicely w/ wayland
 export _JAVA_AWT_WM_NONREPARENTING=1

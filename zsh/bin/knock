@@ -1,0 +1,22 @@
+#!/bin/bash
+
+function show_usage {
+  echo -e "Usage: knock {host} {first_port_num} {second_port_num} etc."
+}
+
+if [[ $# < 2 ]] ; then
+  show_usage
+  exit 0
+fi
+
+if ! which nmap >/dev/null 2>/dev/null; then 
+  echo "err: you gotta install nmap there, bud" && exit 1
+fi
+
+HOST=$1
+shift
+for ARG in "$@"
+do
+  nmap -Pn --host-timeout 100 --max-retries 0 -p $ARG $HOST
+done
+
