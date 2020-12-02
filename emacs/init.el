@@ -7,8 +7,8 @@
 
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives '("melpha-stable" . "http://stable.melpa.org/packages/"))
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+(add-to-list 'package-archives '("melpha-stable" . "https://stable.melpa.org/packages/"))
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
 
 (package-initialize)
 (unless package-archive-contents
@@ -39,10 +39,11 @@
   :ensure nil
   :after (:all flycheck flycheck-tip)
   :mode (("\\.ino\\'" . c-mode))
-  :config
-    (add-hook 'c-mode-hook 'flycheck-mode)
-    (setq-default c-basic-offset 2
-                  c-default-style "k&r"))
+  :custom
+    (c-basic-offset 2)
+    (c-default-style "k&r")
+  :hook
+    (c-mode . flycheck-mode))
     
 (use-package helm
   :ensure t
@@ -60,22 +61,22 @@
 (use-package slime
   :ensure t
   :init
-    (setq slime-contribs                  `(slime-fancy)
-          slime-complete-symbol-function  `slime-fuzzy-complete-symbol
-          slime-net-coding-system         'utf-8-unix
-          slime-lisp-implementations      '((sbcl ("/usr/bin/sbcl")))))
+    (setq inferior-lisp-program "/usr/bin/sbcl")
+  :custom
+    (slime-contribs                  `(slime-fancy))
+    (slime-complete-symbol-function  `slime-fuzzy-complete-symbol)
+    (slime-net-coding-system         'utf-8-unix)
+    (slime-lisp-implementations      '((sbcl ("/usr/bin/sbcl")))))
 
 (use-package erlang
   :ensure t
-  :init
-    (add-to-list 'auto-mode-alist '("\\.P\\'" . erlang-mode))
-    (add-to-list 'auto-mode-alist '("\\.E\\'" . erlang-mode))
-    (add-to-list 'auto-mode-alist '("\\.S\\'" . erlang-mode))
+  :mode (("\\.P\\'" . erlang-mode)
+         ("\\.E\\'" . erlang-mode)
+         ("\\.S\\'" . erlang-mode))
   :config
     (add-hook 'erlang-mode-hook
             (lambda ()
-              (setq mode-name "erl"
-                    erlang-compile-extra-opts '((i . "../include"))
+              (setq erlang-compile-extra-opts '((i . "../include"))
                     erlang-root-dir "/usr/lib/erlang"))))
 
 (use-package edts
@@ -84,13 +85,14 @@
 (use-package flycheck
   :ensure t
   :diminish flycheck-mode
+  :init
+    ;; don't treat init.el as package file
+    (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
   :custom
     (flycheck-display-errors-function nil)
-    (flycheck-erlang-include-path '("../include"))
-    (flycheck-erlang-library-path '())
     (flycheck-check-syntax-automatically '(save))
-  :config
-    (add-hook 'after-init-hook 'global-flycheck-mode))
+  :hook
+    (after-init . global-flycheck-mode))
 
 (use-package flycheck-tip
   :ensure t
@@ -98,16 +100,28 @@
     (flycheck-tip-use-timer 'verbose))
 
 (use-package nord-theme
-    :ensure t
-    :init
-      (add-to-list 'custom-theme-load-path(expand-file-name (concat user-emacs-directory "themes")))
-    :config
-      (load-theme 'nord t))
+  :ensure t
+  :init
+    (add-to-list 'custom-theme-load-path(expand-file-name (concat user-emacs-directory "themes")))
+  :config
+    (load-theme 'nord t))
 
 (use-package nlinum
-    :ensure t
-    :config
+  :ensure t
+  :config
       (global-nlinum-mode))
+
+(use-package go-mode
+  :ensure t
+  :mode ("\\.go\\'" . go-mode)
+  :bind
+    (("C-c b" . compile)
+     ("C-c o" . godef-jump)
+     ("C-c k" . comment-or-uncomment-region))
+  :hook
+  ((go-mode . (lambda () (add-hook 'before-save-hook #'gofmt-before-save nil 'local)))
+   (go-mode . (lambda () (set (make-local-variable 'compile-command) "echo Building... && go build -v && echo Testing... && go test -v && echo Linter... && golint")))))
+  
 
 ;; ----------------------------------------
 ;; script
@@ -145,7 +159,28 @@
     (interactive)
         (let ((exempt (list (current-buffer) (get-buffer "*scratch*"))))
             (mapc 'kill-buffer (seq-difference (buffer-list) exempt #'eq))))
-    
+
+
+
+;; ----------------------------------------
+;; compilation window
+;; ----------------------------------------
+
+(setq compilation-window-height 14)
+(setq compilation-scroll-output t)
+
+(defun on-compilation-hook ()
+  (when (not (get-buffer-window "*compilation*"))
+    (save-selected-window
+      (save-excursion
+        (let* ((w (split-window-vertically))
+               (h (window-height w)))
+          (select-window w)
+	      (switch-to-buffer "*compilation*")
+	      (shrink-window (- h compilation-window-height)))))))
+(add-hook 'compilation-mode-hook 'on-compilation-hook)
+
+
 ;; ----------------------------------------
 ;; rebindings
 ;; ----------------------------------------
@@ -163,8 +198,6 @@
 ;; general
 ;; ----------------------------------------
 
-(setq inferior-lisp-program "/usr/bin/sbcl")
-
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "firefox")
 
@@ -181,7 +214,6 @@
 (setq indent-line-function 'insert-tab)
 (setq-default show-trailing-whitespace t)
 (setq scroll-error-top-bottom t)
-(set-default 'truncate-lines t)
 
 ;; auto easypg
 (require 'epa-file)
@@ -191,9 +223,6 @@
 (scroll-bar-mode -1)
 (setq inhibit-startup-screen t)
 (setq initial-scratch-message nil)
-
-;; flycheck shouldn't treat init.el as package file
-(setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
 
 (add-hook 'term-mode-hook (lambda()
     (setq bidi-paragraph-direction 'left-to-right)))
