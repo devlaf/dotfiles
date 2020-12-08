@@ -45,14 +45,14 @@ bindkey '^H'      backward-kill-word
 # prompt
 source ${zshrc_dir}/posh-git-sh/git-prompt.sh
 autoload -U colors && colors
-precmd() { 
+precmd() {
   start_blue="%{$fg[blue]%}"
   start_green="%{$fg[green]%}"
   reset_color="%{$reset_color%}"
   user_host="$start_green%n@%M$reset_color"
   current_path="$start_blue%~$reset_color"
-  git_info=$(__posh_git_echo) 
-} 
+  git_info=$(__posh_git_echo)
+}
 setopt prompt_subst
 PROMPT='${user_host}:${current_path}${git_info}> '
 export LC_ALL="en_US.UTF-8"
@@ -71,7 +71,7 @@ alias gti='git'
 alias reboot='sudo reboot'
 alias shutdown='sudo shutdown -h now'
 
-# ROS 
+# ROS
 source ${zshrc_dir}/ros/ros_setup.sh
 
 # PATH updates
