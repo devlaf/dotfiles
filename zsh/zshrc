@@ -103,3 +103,4 @@ function get_modified_gpg_cmd {
 alias gpg="$(get_modified_gpg_cmd)"
 SOPS_GPG_EXEC=$( [[ has_gpg2_exec ]] && which gpg2 || which gpg )
 
+

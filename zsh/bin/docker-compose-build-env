@@ -1,0 +1,60 @@
+#!/bin/bash
+
+function die() {
+    echo "$*" >&2; exit 2;
+}
+
+function var_is_unset() {
+    [ -z "$1" ]
+}
+
+function starts_with_dash() {
+    [ "${1#-}" != "$1" ]
+}
+
+function needs_arg() {
+    if [ "$(var_is_unset $2)" ] || [ "$(starts_with_dash $2)" ]; then die "No arg supplied for $1 option"; fi
+}
+
+function import_docker_compose_env_file() {
+    yml_filepath="./docker-compose.yml"
+
+    while getopts :f:-: OPT; do
+        case "${OPT}" in
+            - )
+                case "${OPTARG}" in
+                    file )
+                        opt="${OPTARG}"
+                        arg="${!OPTIND}"; OPTIND=$(( $OPTIND + 1 ))
+                        needs_arg "$opt" "$arg"
+                        yml_filepath="$arg"
+                        ;;
+                    file=* )
+                        opt="${OPTARG%=*}"
+                        arg="${OPTARG#*=}"
+                        needs_arg "$opt" "$arg"
+                        yml_filepath="$arg"
+                        ;;
+                    * ) ;;
+                esac;;
+            f | file )
+                arg="${OPTARG#*=}";
+                needs_arg "$OPT" "$arg"
+                yml_filepath="$arg"
+                ;;
+            ??* ) ;;
+            ? ) ;;
+        esac
+    done
+
+    env_filepath="${yml_filepath%.*}.env"
+    [[ -f "$env_filepath" ]] && source $env_filepath
+}
+
+function run_docker_compose_with_env() {
+    import_docker_compose_env_file $@
+    docker-compose $@
+}
+
+run_docker_compose_with_env $@
+
