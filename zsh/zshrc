@@ -86,11 +86,6 @@ export PATH=$PATH:$GOPATH/bin
 # make java stuff work nicely w/ wayland
 export _JAVA_AWT_WM_NONREPARENTING=1
 
-# Provide owned XDG_RUNTIME_DIR for sway
-mkdir -p /tmp/swaytmp
-chown -R devin:devin /tmp/swaytmp
-export XDG_RUNTIME_DIR=/tmp/swaytmp
-
 # gpg-agent for ssh
 export SSH_AUTH_SOCK="/run/user/$(id -u)/gnupg/S.gpg-agent.ssh"
 export GPG_TTY=$(tty)
