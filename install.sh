@@ -51,7 +51,14 @@ ln -fsn "${dotfiles_dir}/zsh/zshrc" "${HOME}/.zshrc"
 # ----------------------------------------------
 # tmux
 # ----------------------------------------------
-ln -fsn "${dotfiles_dir}/tmux/tmux.conf" "${HOME}/.tmux.conf"
+function get_tmux_cfg_path() {
+  tmux_version=$(tmux -V | sed -e "s/tmux //")
+  [[ "${tmux_version%.*}" -lt "3" ]] && echo "$HOME/.tmux.conf" || echo "$xdg_cfg/tmux/tmux.conf"
+}
+tmux_cfg_path="$(get_tmux_cfg_path)"
+mkdir -p "$(dirname $tmux_cfg_path)"
+
+ln -fsn "$dotfiles_dir/tmux/tmux.conf" "$tmux_cfg_path"
 
 # ----------------------------------------------
 # nvim
@@ -62,17 +69,12 @@ ln -fsn "${dotfiles_dir}/nvim" "${xdg_cfg}/nvim"
 # emacs + quicklisp
 # ----------------------------------------------
 function get_emacs_cfg_path() {
-  emacs_version=$(emacs --version | head -n 1 | sed -e "s/^GNU Emacs //")
-  if [[ "${emacs_version%.*}" -lt "27" ]]; then
-    echo "~/.emacs.d"
-  else
-    echo "$xdg_cfg/emacs"
-  fi
+  emacs_version=$(emacs --version | head -n 1 | sed -e "s/GNU Emacs //")
+  [[ "${emacs_version%.*}" -lt "27" ]] && echo "$HOME/.emacs.d" || echo "$xdg_cfg/emacs"
 }
+emacs_cfg_path="$(get_emacs_cfg_path)"
 
 if flag_exists "with-emacs" || flag_exists "with-quicklisp"; then
-  emacs_cfg_path=get_emacs_cfg_path
-
   mkdir -p $emacs_cfg_path
   ln -fsn "${dotfiles_dir}/emacs/init.el" "$emacs_cfg_path/init.el"
 fi
