@@ -16,7 +16,7 @@ function needs_arg() {
     if [ "$(var_is_unset $2)" ] || [ "$(starts_with_dash $2)" ]; then die "No arg supplied for $1 option"; fi
 }
 
-function import_docker_compose_env_file() {
+function find_docker_compose_yml_file() {
     yml_filepath="./docker-compose.yml"
 
     while getopts :f:-: OPT; do
@@ -47,14 +47,19 @@ function import_docker_compose_env_file() {
         esac
     done
 
-    env_filepath="${yml_filepath%.*}.env"
-    [[ -f "$env_filepath" ]] && source $env_filepath
+    echo ${yml_filepath}
 }
 
-function run_docker_compose_with_env() {
-    import_docker_compose_env_file $@
-    docker-compose $@
+function run_docker_compose_with_sops_env() {
+    compose_filepath=$(find_docker_compose_yml_file $@)
+    env_filepath="$(dirname $compose_filepath)/sops.env"
+
+    if [[ -f "$env_filepath" ]]; then
+        env $(sops --decrypt $env_filepath | grep -v '^#' | xargs) docker-compose $@
+    else
+        docker-compose $@
+    fi
 }
 
-run_docker_compose_with_env $@
+run_docker_compose_with_sops_env $@
 
