@@ -44,7 +44,7 @@
     (c-default-style "k&r")
   :hook
     (c-mode . flycheck-mode))
-    
+
 (use-package helm
   :ensure t
   :custom
@@ -121,7 +121,9 @@
   :hook
   ((go-mode . (lambda () (add-hook 'before-save-hook #'gofmt-before-save nil 'local)))
    (go-mode . (lambda () (set (make-local-variable 'compile-command) "echo Building... && go build -v && echo Testing... && go test -v && echo Linter... && golint")))))
-  
+
+(use-package vterm
+    :ensure t)
 
 ;; ----------------------------------------
 ;; script
@@ -207,7 +209,7 @@
 ;; send all emacs backup to /tmp
 (setq backup-directory-alist `(("." . "/tmp")))
 (setq backup-by-copying t)
-    
+
 ;; formatting
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
