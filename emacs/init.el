@@ -32,8 +32,11 @@
 
 (use-package org
   :ensure t
+  :custom
+    (org-startup-folded t)
   :hook
-    (org-mode . (lambda() (setq truncate-lines nil))))
+    ((org-mode . (lambda() (setq truncate-lines nil))))
+     (org-mode . (lambda() (electric-indent-local-mode -1))))
 
 (use-package cc-mode
   :ensure nil
