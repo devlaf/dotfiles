@@ -132,12 +132,17 @@
 ;; script
 ;; ----------------------------------------
 
-(defun sshell (remote-path)
-    "Open remote shell over ssh."
-    (interactive "suser@host: ")
-    (let ((default-directory (concat (concat "/ssh:" remote-path) ":"))
-          (explicit-shell-file-name "/bin/bash"))
-      (shell)))
+(defun sshell (addr port rshell)
+  "Open remote shell over ssh."
+  (interactive (list
+                (read-string "user@host: " nil nil nil)
+                (read-string "port [22]: " nil nil "22")
+                (read-string "shell [/bin/bash]: " nil nil "/bin/bash")))
+  (unless (> (length addr) 0)
+    (signal 'wrong-type-argument "addr"))
+  (let ((buf (dired (format "/ssh:%s#%s:" addr port)))
+        (explicit-shell-file-name rshell))
+    (with-current-buffer buf (shell))))
 
 (defun knock (host &rest ports)
     "Port knock host with provided ports"

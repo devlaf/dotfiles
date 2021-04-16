@@ -3,7 +3,7 @@
 #
 
 # unbreak tramp when zsh is default shell
-[[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
+[[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ '
 
 # location of this config
 zshrc_dir="$( cd -P "$( dirname "$(readlink "${(%):-%N}")" )" && pwd )"
