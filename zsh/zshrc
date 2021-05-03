@@ -59,17 +59,14 @@ export LC_ALL="en_US.UTF-8"
 
 # alias
 alias ls='ls --color=auto'
-alias sublime='subl3'
-alias vscode='code'
 alias mkdir="mkdir -p"
 alias path='echo $PATH | tr -s ":" "\n"'
 alias vim='nvim'
 alias history='history 1'
-alias ducks='du -cksh * | sort -rh | head -11'
-alias ducklings='du -ckhs .[^.]* |sort -rh | head -20'
+alias tophistory='history | cut -c 8- | sort | uniq -c | sort -rn | head -n 10'
+alias ducks='du -cksh $(ls -A) | sort -rh | head -n 10'
 alias gti='git'
-alias reboot='sudo reboot'
-alias shutdown='sudo shutdown -h now'
+alias contributers='git log --format='%aN' | sort | uniq -c | sort -rn | head -n 10'
 
 # ROS
 source ${zshrc_dir}/ros/ros_setup.sh
