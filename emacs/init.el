@@ -128,6 +128,9 @@
 (use-package vterm
     :ensure t)
 
+(use-package yaml-mode
+    :ensure t)
+
 ;; ----------------------------------------
 ;; script
 ;; ----------------------------------------
