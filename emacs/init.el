@@ -30,6 +30,12 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
+(use-package exec-path-from-shell
+  :if (memq window-system '(mac ns)
+  :ensure t
+  :config
+    (exec-path-from-shell-initialize))
+
 (use-package org
   :ensure t
   :custom
@@ -122,14 +128,19 @@
      ("C-c o" . godef-jump)
      ("C-c k" . comment-or-uncomment-region))
   :hook
-  ((go-mode . (lambda () (add-hook 'before-save-hook #'gofmt-before-save nil 'local)))
-   (go-mode . (lambda () (set (make-local-variable 'compile-command) "echo Building... && go build -v && echo Testing... && go test -v && echo Linter... && golint")))))
+    ((go-mode . (lambda () (add-hook 'before-save-hook #'gofmt-before-save nil 'local)))
+     (go-mode . (lambda () (set (make-local-variable 'compile-command) "echo Building... && go build -v && echo Testing... && go test -v && echo Linter... && golint")))))
 
 (use-package vterm
-    :ensure t)
+  :ensure t)
 
 (use-package yaml-mode
-    :ensure t)
+  :ensure t)
+
+(use-package hcl-mode
+  :ensure t
+  :mode (("\\.tf\\'" . hcl-mode))
+  :custom (hcl-indent-level 2))
 
 ;; ----------------------------------------
 ;; script
@@ -239,5 +250,3 @@
 
 (add-hook 'term-mode-hook (lambda()
     (setq bidi-paragraph-direction 'left-to-right)))
-
-
