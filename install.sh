@@ -32,8 +32,8 @@ fi
 # package check
 # ----------------------------------------------
 packages="zsh nvim tmux"
-if flag_exists "with-quicklisp"; then packages="${packages} emacs scbl";
-elif flag_exists "with-emacs"; then packages="${packages} emacs";
+if flag_exists "with-quicklisp"; then packages="${packages} emacs aspell scbl";
+elif flag_exists "with-emacs"; then packages="${packages} emacs aspell";
 fi
 
 for app in $packages

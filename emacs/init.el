@@ -41,7 +41,8 @@
     (org-startup-folded t)
   :hook
     ((org-mode . (lambda() (setq truncate-lines nil))))
-     (org-mode . (lambda() (electric-indent-local-mode -1))))
+     (org-mode . (lambda() (electric-indent-local-mode -1)))
+     (org-mode . flyspell-mode))
 
 (use-package cc-mode
   :ensure nil
@@ -106,6 +107,12 @@
   :ensure t
   :custom
     (flycheck-tip-use-timer 'verbose))
+
+(use-package flyspell
+  :ensure t
+  :config
+    (setq ispell-program-name "aspell")
+    (setq ispell-list-command "--list"))
 
 (use-package nord-theme
   :ensure t
