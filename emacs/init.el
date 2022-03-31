@@ -110,9 +110,9 @@
 
 (use-package flyspell
   :ensure t
-  :config
-    (setq ispell-program-name "aspell")
-    (setq ispell-list-command "--list"))
+  :custom
+    (ispell-program-name "aspell")
+    (ispell-list-command "--list"))
 
 (use-package nord-theme
   :ensure t
@@ -147,6 +147,23 @@
   :ensure t
   :mode (("\\.tf\\'" . hcl-mode))
   :custom (hcl-indent-level 2))
+
+(use-package tuareg
+  :ensure t
+  :mode (("\\.ml[ily]?$" . tuareg-mode)
+         ("\\.topml$" . tuareg-mode)))
+
+(use-package merlin
+  :ensure t
+  :custom
+    (merlin-use-auto-complete-mode t)
+    (merlin-error-after-save nil)
+  :hook (tuareg-mode . merlin-mode))
+
+(use-package utop
+  :ensure t
+  :config
+  :hook (tuareg-mode . utop-minor-mode))
 
 ;; ----------------------------------------
 ;; script
