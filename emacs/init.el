@@ -163,6 +163,9 @@
 (use-package utop
   :ensure t
   :config
+  (if (executable-find "opam")
+    (setq utop-command "opam config exec -- utop -emacs")
+    (warn "Cannot find \"opam\" executable."))
   :hook (tuareg-mode . utop-minor-mode))
 
 ;; ----------------------------------------
