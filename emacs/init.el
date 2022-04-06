@@ -168,6 +168,14 @@
     (warn "Cannot find \"opam\" executable."))
   :hook (tuareg-mode . utop-minor-mode))
 
+(use-package minimap
+  :ensure t
+  :custom
+    (minimap-window-location 'right)
+    (minimap-mode 1)
+  :bind
+    ("C-c m" . minimap-mode))
+
 ;; ----------------------------------------
 ;; script
 ;; ----------------------------------------
