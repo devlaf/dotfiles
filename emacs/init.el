@@ -257,7 +257,7 @@
 ;; ----------------------------------------
 
 (setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "firefox")
+      browse-url-generic-program "firefox-wayland")
 
 ;; don't save X clipboard manager stuff on exit (creates issues w/ wayland)
 (setq x-select-enable-clipboard-manager nil)
