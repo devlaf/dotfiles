@@ -285,5 +285,8 @@
 ;; stop prompting me to follow symlinks
 (setq vc-follow-symlinks t)
 
+;; cursor
+(setq-default cursor-type 'bar)
+
 (add-hook 'term-mode-hook (lambda()
     (setq bidi-paragraph-direction 'left-to-right)))
