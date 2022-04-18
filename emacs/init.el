@@ -282,5 +282,8 @@
 (setq inhibit-startup-screen t)
 (setq initial-scratch-message nil)
 
+;; stop prompting me to follow symlinks
+(setq vc-follow-symlinks t)
+
 (add-hook 'term-mode-hook (lambda()
     (setq bidi-paragraph-direction 'left-to-right)))
