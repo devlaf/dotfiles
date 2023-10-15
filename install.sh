@@ -46,7 +46,9 @@ done
 # ----------------------------------------------
 # zsh
 # ----------------------------------------------
-ln -fsn "${dotfiles_dir}/zsh/zshrc" "${HOME}/.zshrc"
+ln -fsn "${dotfiles_dir}/zsh/zshenv" "$HOME/.zshenv"
+mkdir -p $xdg_cfg/zsh
+ln -fsn "${dotfiles_dir}/zsh/zshrc" "${xdg_cfg}/zsh/.zshrc"
 
 # ----------------------------------------------
 # tmux
