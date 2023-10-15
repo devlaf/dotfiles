@@ -8,12 +8,19 @@
 # location of this config
 zshrc_dir="$( cd -P "$( dirname "$(readlink "${(%):-%N}")" )" && pwd )"
 
+# xdg definitions
+export XDG_CONFIG_HOME="$HOME"/.config
+export XDG_CACHE_HOME="$HOME"/.cache
+export XDG_DATA_HOME="$HOME"/.local/share
+export XDG_STATE_HOME="$HOME"/.local/state
+export XDG_RUNTIME_DIR=/run/user/$(id -u)
+
 # word style
 autoload -U select-word-style
 select-word-style bash
 
 # history
-HISTFILE=~/.zsh_histfile
+export HISTFILE="$XDG_STATE_HOME"/zsh_history
 HISTSIZE=1000
 SAVEHIST=1000
 setopt appendhistory autocd extendedglob
@@ -77,15 +84,8 @@ export PATH=$PATH:/opt/bin
 export PATH=$PATH:~/.local/bin
 
 # go
-export GOPATH=$HOME/.go
+export GOPATH=$XDG_DATA_HOME/.go
 export PATH=$PATH:$GOPATH/bin
-
-# make java stuff work nicely w/ wayland
-export _JAVA_AWT_WM_NONREPARENTING=1
-
-# wayland startup
-XDG_RUNTIME_DIR=/run/user/$(id -u)
-XDG_SESSION_TYPE=wayland
 
 # gpg-agent for ssh
 export SSH_AUTH_SOCK="/run/user/$(id -u)/gnupg/S.gpg-agent.ssh"
@@ -99,3 +99,20 @@ function get_modified_gpg_cmd {
 export SOPS_GPG_EXEC=$( has_gpg2_exec && which gpg2 || which gpg )
 alias gpg="$(get_modified_gpg_cmd)"
 
+# wayland odds and ends
+if test -f ${XDG_CONFIG_HOME}/zsh/wayland_env; then
+    source ${XDG_CONFIG_HOME}/zsh/wayland_env
+fi
+
+# apps that don't XDG nicely
+if test -f ${XDG_CONFIG_HOME}/zsh/xdg_env; then
+    source ${XDG_CONFIG_HOME}/zsh/xdg_env
+fi
+
+# flatpak aliases
+if test -f ${XDG_CONFIG_HOME}/zsh/flatpak_env; then
+    source ${XDG_CONFIG_HOME}/zsh/flatpak_env
+fi
+
+# opam
+[[ ! -r ${XDG_DATA_HOME}/opam/opam-init/init.zsh ]] || source ${XDG_DATA_HOME}/opam/opam-init/init.zsh  > /dev/null 2> /dev/null
