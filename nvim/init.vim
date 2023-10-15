@@ -10,7 +10,7 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
 endif
 
 " Plugins
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.local/state/plugged')
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
