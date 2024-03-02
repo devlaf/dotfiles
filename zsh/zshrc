@@ -79,13 +79,26 @@ alias contributers='git log --format='%aN' | sort | uniq -c | sort -rn | head -n
 source ${zshrc_dir}/ros/ros_setup.sh
 
 # PATH updates
-export PATH=$PATH:${zshrc_dir}/bin
-export PATH=$PATH:/opt/bin
-export PATH=$PATH:~/.local/bin
+
+pathappend() {
+  if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
+    PATH="${PATH:+"$PATH:"}$1"
+  fi
+}
+    
+pathprepend() {
+  if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
+    PATH="$1${PATH:+":$PATH"}"
+  fi
+}
+
+pathprepend $HOME/.local/bin
+pathappend ${zshrc_dir}/bin
+pathappend /opt/bin
 
 # go
 export GOPATH=$XDG_DATA_HOME/.go
-export PATH=$PATH:$GOPATH/bin
+pathappend $GOPATH/bin
 
 # gpg-agent for ssh
 export SSH_AUTH_SOCK="/run/user/$(id -u)/gnupg/S.gpg-agent.ssh"
@@ -100,18 +113,18 @@ export SOPS_GPG_EXEC=$( has_gpg2_exec && which gpg2 || which gpg )
 alias gpg="$(get_modified_gpg_cmd)"
 
 # wayland odds and ends
-if test -f ${XDG_CONFIG_HOME}/zsh/wayland_env; then
-    source ${XDG_CONFIG_HOME}/zsh/wayland_env
+if test -f ${XDG_CONFIG_HOME}/zsh/env-wayland; then
+    source ${XDG_CONFIG_HOME}/zsh/env-wayland
 fi
 
 # apps that don't XDG nicely
-if test -f ${XDG_CONFIG_HOME}/zsh/xdg_env; then
-    source ${XDG_CONFIG_HOME}/zsh/xdg_env
+if test -f ${XDG_CONFIG_HOME}/zsh/env-xdg; then
+    source ${XDG_CONFIG_HOME}/zsh/env-xdg
 fi
 
 # flatpak aliases
-if test -f ${XDG_CONFIG_HOME}/zsh/flatpak_env; then
-    source ${XDG_CONFIG_HOME}/zsh/flatpak_env
+if test -f ${XDG_CONFIG_HOME}/zsh/env-flatpak; then
+    source ${XDG_CONFIG_HOME}/zsh/env-flatpak
 fi
 
 # opam
