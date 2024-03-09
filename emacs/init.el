@@ -15,12 +15,16 @@
   (package-refresh-contents))
 
 ;; ----------------------------------------
-;; separate custom.el
+;; don't stomp around the filesystem
 ;; ----------------------------------------
 
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (when (file-exists-p custom-file)
   (load custom-file))
+
+(setq backup-directory-alist `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+(setq backup-by-copying t)
 
 ;; ----------------------------------------
 ;; `use-package` decs
@@ -219,6 +223,35 @@
             (mapc 'kill-buffer (seq-difference (buffer-list) exempt #'eq))))
 
 
+;; ----------------------------------------
+;; perf
+;; ----------------------------------------
+
+;; 64MB gc threshold; force gc on losing window focus 
+(setq gc-cons-threshold (* 64 1024 1024))
+(add-function :after
+              after-focus-change-function
+              (lambda () (unless (frame-focus-state) (garbage-collect))))
+
+;; disable gc when minibuffer active
+(defun minibuffer-before-hook ()
+  (setq gc-cons-threshold most-positive-fixnum))
+(defun minibuffer-exit-hook ()
+  (setq gc-cons-threshold (* 64 1024 1024)))
+(add-hook 'minibuffer-setup-hook #'minibuffer-before-hook)
+(add-hook 'minibuffer-exit-hook #'minibuffer-exit-hook)
+
+;; cribbed from doom
+(setq-default bidi-display-reordering 'left-to-right
+              bidi-paragraph-direction 'left-to-right
+              bidi-inhibit-bpa t)
+(setq read-process-output-max (* 2 1024 1024)
+      process-adaptive-read-buffering nil)
+(setq fast-but-imprecise-scrolling t
+      redisplay-skip-fontification-on-input t
+      inhibit-compacting-font-caches t)
+(setq idle-update-delay 1.0)
+
 
 ;; ----------------------------------------
 ;; compilation window
@@ -249,44 +282,33 @@
 ;; (global-set-key [prior] 'scroll-page-up)
 (global-set-key "\C-c$" 'toggle-truncate-lines)
 
-;; meta to sys (alt taken by sway)
-(setq x-super-keysym 'meta)
 
 ;; ----------------------------------------
 ;; general
 ;; ----------------------------------------
 
-(setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "firefox-wayland")
+;; window
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(setq-default cursor-type 'bar)
 
-;; don't save X clipboard manager stuff on exit (creates issues w/ wayland)
-(setq x-select-enable-clipboard-manager nil)
-
-;; send all emacs backup to /tmp
-(setq backup-directory-alist `(("." . "/tmp")))
-(setq backup-by-copying t)
+;; startup
+(setq inhibit-startup-screen t)
+(setq initial-scratch-message nil)
 
 ;; formatting
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
-(setq indent-line-function 'insert-tab)
 (setq-default show-trailing-whitespace t)
 (setq scroll-error-top-bottom t)
-
-;; auto easypg
-(require 'epa-file)
-(epa-file-enable)
-
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-(setq inhibit-startup-screen t)
-(setq initial-scratch-message nil)
 
 ;; stop prompting me to follow symlinks
 (setq vc-follow-symlinks t)
 
-;; cursor
-(setq-default cursor-type 'bar)
+;; browser
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "firefox")
 
-(add-hook 'term-mode-hook (lambda()
-    (setq bidi-paragraph-direction 'left-to-right)))
+;; auto easypg
+(require 'epa-file)
+(epa-file-enable)
