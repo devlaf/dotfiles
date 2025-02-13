@@ -125,11 +125,6 @@
   :config
     (load-theme 'nord t))
 
-(use-package nlinum
-  :ensure t
-  :config
-      (global-nlinum-mode))
-
 (use-package go-mode
   :ensure t
   :mode ("\\.go\\'" . go-mode)
@@ -301,6 +296,9 @@
 (setq-default tab-width 4)
 (setq-default show-trailing-whitespace t)
 (setq scroll-error-top-bottom t)
+
+;; line numbers
+(add-hook 'prog-mode-hook #'display-line-numbers-mode)
 
 ;; stop prompting me to follow symlinks
 (setq vc-follow-symlinks t)
