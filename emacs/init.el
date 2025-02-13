@@ -316,7 +316,7 @@
 (setq scroll-error-top-bottom t)
 
 ;; line numbers
-(add-hook 'prog-mode-hook #'display-line-numbers-mode)
+(global-display-line-numbers-mode 1)
 
 ;; stop prompting me to follow symlinks
 (setq vc-follow-symlinks t)
