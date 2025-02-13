@@ -175,6 +175,24 @@
   :bind
     ("C-c m" . minimap-mode))
 
+(use-package treemacs
+  :ensure t
+  :config
+    (progn
+      (setq treemacs-display-in-side-window t
+            treemacs-move-files-by-mouse-dragging nil)
+      (treemacs-follow-mode t)
+      (treemacs-filewatch-mode t))
+  :bind
+    (:map global-map
+        ("M-0"       . treemacs-select-window)
+        ("C-x t 1"   . treemacs-delete-other-windows)
+        ("C-x t t"   . treemacs)
+        ("C-x t d"   . treemacs-select-directory)
+        ("C-x t C-s" . treemacs-find-file))
+  :init
+    (treemacs-start-on-boot))
+
 ;; ----------------------------------------
 ;; script
 ;; ----------------------------------------
