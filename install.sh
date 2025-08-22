@@ -68,6 +68,12 @@ ln -fsn "$dotfiles_dir/tmux/tmux.conf" "$tmux_cfg_path"
 ln -fsn "${dotfiles_dir}/nvim" "${xdg_cfg}/nvim"
 
 # ----------------------------------------------
+# gitconfig
+# ----------------------------------------------
+mkdir -p "${xdg_cfg}/git/"
+ln -fsn "${dotfiles_dir}/git/gitconfig" "${xdg_cfg}/git/config"
+
+# ----------------------------------------------
 # emacs + quicklisp
 # ----------------------------------------------
 function get_emacs_cfg_path() {

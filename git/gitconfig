@@ -1,0 +1,34 @@
+[include]
+    path = ./localconfig
+[core]
+    editor = nvim
+[fetch]
+    prune = true
+    pruneTags = true
+    all = true
+[merge]
+    tool = smerge
+[commit]
+    gpgsign = true
+[branch]
+    sort = -commiterdate
+[tag]
+    sort = version:refname
+[diff]
+    algorithm = histogram
+    colorMoved = plain
+    mnemonicPrefix = true
+    renames = true
+[rerere]
+    enabled = true
+    autoupdate = true
+[rebase]
+    autoSquash = true
+    autoStash = true
+    updateRefs = true
+[pull]
+    rebase = true
+[alias]
+    whoops = !git reset --soft HEAD && git commit --all --amend --no-edit
+    fixup = !git log --oneline --decorate @{u}.. | fzy | awk '{ print $1 }' | xargs -I{} git commit --fixup={}
+
