@@ -193,6 +193,15 @@
   :init
     (treemacs-start-on-boot))
 
+(use-package centaur-tabs
+  :ensure t
+  :demand
+  :config
+    (centaur-tabs-mode t)
+  :bind
+    ("M-p" . centaur-tabs-backward)
+    ("M-n" . centaur-tabs-forward))
+
 ;; ----------------------------------------
 ;; script
 ;; ----------------------------------------
