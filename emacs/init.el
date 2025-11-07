@@ -313,6 +313,7 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (setq-default cursor-type 'bar)
+(setq-default frame-title-format "GNU Emacs")
 
 ;; startup
 (setq inhibit-startup-screen t)
