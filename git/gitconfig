@@ -11,7 +11,7 @@
 [commit]
     gpgsign = true
 [branch]
-    sort = -commiterdate
+    sort = -committerdate
 [tag]
     sort = version:refname
 [diff]
