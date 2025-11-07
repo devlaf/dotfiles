@@ -1,0 +1,68 @@
+#!/bin/bash
+
+RED='\e[0;31m'
+GREEN='\e[0;32m'
+YELLOW='\e[0;33m'
+BLUE='\e[1;34m'
+CYAN='\e[1;36m'
+PURPLE='\e[0;35m'
+RESET='\e[0m'
+
+function get_branch_color {
+    local ahead
+    local behind
+    read ahead behind <<< "`git rev-list --count --left-right $upstream...HEAD 2>/dev/null`"
+
+    local branch_color
+    if [[ "$behind" == "0" && "$ahead" == "0" ]]; then
+        branch_color="${CYAN}"
+    elif [[ "$behind" == "0" ]]; then
+        branch_color="${GREEN}"
+    elif [[ "$ahead" == "0" ]]; then
+        branch_color="${RED}"
+    else
+        branch_color="${YELLOW}"
+    fi
+    echo "${branch_color}"
+}
+
+function get_file_mods {
+    local filesAdded=0
+    local filesModified=0
+    local filesDeleted=0
+    while IFS="\n" read -r tag rest
+    do
+        case "${tag:1:1}" in
+            \? )
+                (( filesAdded++ ))
+                ;;
+            A )
+                (( filesAdded++ ))
+                ;;
+            M )
+                (( filesModified++ ))
+                ;;
+            D )
+                (( filesDeleted++ ))
+                ;;
+        esac
+    done <<< "`git status --porcelain 2>/dev/null`"
+
+    if [[ "$filesAdded" != "0" || "$filesModified" != "0" || "$filesDeleted" != "0" ]]; then
+        echo "${PURPLE}+${filesAdded} ~${filesModified} -${filesDeleted}${RESET}"
+    fi
+}
+
+function get_git_part {
+    local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+    if [[ "$branch" != "" ]]; then
+        echo " ${YELLOW}[${RESET}$(get_branch_color)${branch} ≡ $(get_file_mods)${YELLOW}]${RESET}"
+    fi
+}
+
+function get_prompt {
+    PS1="${GREEN}\u@\h${RESET}:${BLUE}\w${RESET}$(get_git_part)> "
+}
+
+PROMPT_COMMAND='get_prompt'
+

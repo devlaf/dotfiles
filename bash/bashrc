@@ -1,12 +1,16 @@
+#!/bin/bash
 #
-# ~/.zshrc
+# ~/.bashrc
 #
-
-# unbreak tramp when zsh is default shell
-[[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ '
 
 # location of this config
-zshrc_dir="$( cd -P "$( dirname "$(readlink "${(%):-%N}")" )" && pwd )"
+bashrc_dir=$(cd "$(dirname "$BASH_SOURCE")"; cd -P "$(dirname "$(readlink "$BASH_SOURCE" || echo .)")"; pwd)
+
+# prompt
+source "$bashrc_dir/prompt/bash_prompt"
+
+# tab completion
+bind 'set show-all-if-ambiguous on'
 
 # xdg definitions
 export XDG_CONFIG_HOME="$HOME"/.config
@@ -15,54 +19,11 @@ export XDG_DATA_HOME="$HOME"/.local/share
 export XDG_STATE_HOME="$HOME"/.local/state
 export XDG_RUNTIME_DIR=/run/user/$(id -u)
 
-# word style
-autoload -U select-word-style
-select-word-style bash
-
 # history
-export HISTFILE="$XDG_STATE_HOME"/zsh_history
-HISTSIZE=1000
-SAVEHIST=1000
-setopt appendhistory autocd extendedglob
-
-# use vi mode
-bindkey -v
-
-# completions
-zstyle :compinstall filename '$(zshrc_dir)/.zshrc'
-autoload -Uz compinit
-compinit
-
-# keyboard remappings
-export XKB_DEFAULT_OPTIONS=ctrl:nocaps
-
-# fix directional keys
-bindkey "\e[H"    beginning-of-line
-bindkey "\e[1~"   beginning-of-line
-bindkey "\e[F"    end-of-line
-bindkey "\e[4~"   end-of-line
-bindkey "^[[1;5D" backward-word
-bindkey "^[Od"    backward-word
-bindkey "^[[1;5C" forward-word
-bindkey "^[Oc"    forward-word
-bindkey "\e[3~"   delete-char
-bindkey '^[[3;5~' kill-word
-bindkey '^H'      backward-kill-word
-
-# prompt
-source ${zshrc_dir}/posh-git-sh/git-prompt.sh
-autoload -U colors && colors
-precmd() {
-  start_blue="%{$fg[blue]%}"
-  start_green="%{$fg[green]%}"
-  reset_color="%{$reset_color%}"
-  user_host="$start_green%n@%M$reset_color"
-  current_path="$start_blue%~$reset_color"
-  git_info=$(__posh_git_echo)
-}
-setopt prompt_subst
-PROMPT='${user_host}:${current_path}${git_info}> '
-export LC_ALL="en_US.UTF-8"
+mkdir -p "$XDG_STATE_HOME"/bash
+export HISTFILE="$XDG_STATE_HOME"/bash/history
+export HISTSIZE=10000
+export HISTFILESIZE=10000
 
 # alias
 alias ls='ls --color=auto'
@@ -74,9 +35,6 @@ alias tophistory='history | cut -c 8- | sort | uniq -c | sort -rn | head -n 10'
 alias ducks='du -cksh $(ls -A) | sort -rh | head -n 10'
 alias gti='git'
 alias contributers='git log --format='%aN' | sort | uniq -c | sort -rn | head -n 10'
-
-# ROS
-source ${zshrc_dir}/ros/ros_setup.sh
 
 # PATH updates
 
@@ -93,7 +51,7 @@ pathprepend() {
 }
 
 pathprepend $HOME/.local/bin
-pathappend ${zshrc_dir}/bin
+pathappend $bashrc_dir/script
 pathappend /opt/bin
 
 # go
@@ -105,7 +63,9 @@ export SSH_AUTH_SOCK="/run/user/$(id -u)/gnupg/S.gpg-agent.ssh"
 export GPG_TTY=$(tty)
 
 # gpg2 crap
-function has_gpg2_exec { which gpg2 >/dev/null 2>&1 }
+function has_gpg2_exec {
+  which gpg2 >/dev/null 2>&1
+}
 function get_modified_gpg_cmd {
   has_gpg2_exec && echo 'echo "\n********** HEY! THIS IS GPG 1 **********\n" && gpg' || echo 'gpg'
 }
@@ -129,3 +89,4 @@ fi
 
 # opam
 [[ ! -r ${XDG_DATA_HOME}/opam/opam-init/init.zsh ]] || source ${XDG_DATA_HOME}/opam/opam-init/init.zsh  > /dev/null 2> /dev/null
+
