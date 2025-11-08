@@ -1,12 +1,12 @@
 #!/bin/bash
 
-RED='\e[0;31m'
-GREEN='\e[0;32m'
-YELLOW='\e[0;33m'
-BLUE='\e[1;34m'
-CYAN='\e[1;36m'
-PURPLE='\e[0;35m'
-RESET='\e[0m'
+RED='\[\e[0;31m\]'
+GREEN='\[\e[0;32m\]'
+YELLOW='\[\e[0;33m\]'
+BLUE='\[\e[1;34m\]'
+CYAN='\[\e[1;36m\]'
+PURPLE='\[\e[0;35m\]'
+RESET='\[\e[0m\]'
 
 function get_branch_color {
     local ahead
