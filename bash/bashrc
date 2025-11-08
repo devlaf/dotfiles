@@ -73,18 +73,18 @@ export SOPS_GPG_EXEC=$( has_gpg2_exec && which gpg2 || which gpg )
 alias gpg="$(get_modified_gpg_cmd)"
 
 # wayland odds and ends
-if test -f ${XDG_CONFIG_HOME}/zsh/env-wayland; then
-    source ${XDG_CONFIG_HOME}/zsh/env-wayland
+if test -f ${XDG_CONFIG_HOME}/bash/env-wayland; then
+    source ${XDG_CONFIG_HOME}/bash/env-wayland
 fi
 
 # apps that don't XDG nicely
-if test -f ${XDG_CONFIG_HOME}/zsh/env-xdg; then
-    source ${XDG_CONFIG_HOME}/zsh/env-xdg
+if test -f ${XDG_CONFIG_HOME}/bash/env-xdg; then
+    source ${XDG_CONFIG_HOME}/bash/env-xdg
 fi
 
 # flatpak aliases
-if test -f ${XDG_CONFIG_HOME}/zsh/env-flatpak; then
-    source ${XDG_CONFIG_HOME}/zsh/env-flatpak
+if test -f ${XDG_CONFIG_HOME}/bash/env-flatpak; then
+    source ${XDG_CONFIG_HOME}/bash/env-flatpak
 fi
 
 # opam
