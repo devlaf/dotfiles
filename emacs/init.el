@@ -180,7 +180,8 @@
   :config
     (progn
       (setq treemacs-display-in-side-window t
-            treemacs-move-files-by-mouse-dragging nil)
+            treemacs-move-files-by-mouse-dragging nil
+            treemacs-is-never-other-window t)
       (treemacs-follow-mode t)
       (treemacs-filewatch-mode t))
   :bind
